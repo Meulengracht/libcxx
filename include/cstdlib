@@ -126,6 +126,7 @@ using ::calloc;
 using ::free;
 using ::malloc;
 using ::realloc;
+using ::aligned_alloc;
 using ::abort;
 using ::atexit;
 using ::exit;

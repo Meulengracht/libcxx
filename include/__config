@@ -43,7 +43,7 @@
 #define _LIBCPP_OBJECT_FORMAT_ELF   1
 #elif defined(__MACH__)
 #define _LIBCPP_OBJECT_FORMAT_MACHO 1
-#elif defined(_WIN32)
+#elif defined(_WIN32) || (MOLLENOS)
 #define _LIBCPP_OBJECT_FORMAT_COFF  1
 #elif defined(__wasm__)
 #define _LIBCPP_OBJECT_FORMAT_WASM  1
@@ -284,6 +284,8 @@
 # define _LIBCPP_USING_NACL_RANDOM
 #elif defined(_LIBCPP_WIN32API)
 # define _LIBCPP_USING_WIN32_RANDOM
+#elif defined(MOLLENOS)
+# define _LIBCPP_USING_CRAND_RANDOM
 #else
 # define _LIBCPP_USING_DEV_RANDOM
 #endif
@@ -614,6 +616,10 @@ namespace std {
 #define _LIBCPP_HAS_NO_ASAN
 
 #endif // _LIBCPP_COMPILER_[CLANG|GCC|MSVC|IBM]
+
+#if defined(MOLLENOS)
+#define _LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS 1
+#endif
 
 #if defined(_LIBCPP_OBJECT_FORMAT_COFF)
 #if defined(_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS)
@@ -1028,6 +1034,8 @@ _LIBCPP_FUNC_VIS extern "C" void __sanitizer_annotate_contiguous_container(
 #   define _LIBCPP_HAS_THREAD_API_PTHREAD
 # elif defined(_LIBCPP_WIN32API)
 #  define _LIBCPP_HAS_THREAD_API_WIN32
+# elif defined(MOLLENOS)
+#  define _LIBCPP_HAS_THREAD_API_C11
 # else
 #  error "No thread API"
 # endif // _LIBCPP_HAS_THREAD_API
