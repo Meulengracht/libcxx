@@ -630,6 +630,7 @@ namespace std {
 
 #if defined(MOLLENOS)
 #define _LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS 1
+#define _LIBCPP_HAS_THREAD_API_EXTERNAL 1
 #endif
 
 #if defined(_LIBCPP_OBJECT_FORMAT_COFF)
