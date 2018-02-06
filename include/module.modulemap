@@ -493,10 +493,6 @@ module std [system] {
       header "experimental/algorithm"
       export *
     }
-    module any {
-      header "experimental/any"
-      export *
-    }
     module chrono {
       header "experimental/chrono"
       export *
@@ -542,14 +538,6 @@ module std [system] {
       header "experimental/memory_resource"
       export *
     }
-    module numeric {
-      header "experimental/numeric"
-      export *
-    }
-    module optional {
-      header "experimental/optional"
-      export *
-    }
     module propagate_const {
       header "experimental/propagate_const"
       export *
@@ -568,10 +556,6 @@ module std [system] {
     }
     module string {
       header "experimental/string"
-      export *
-    }
-    module string_view {
-      header "experimental/string_view"
       export *
     }
     module system_error {
