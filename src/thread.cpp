@@ -36,6 +36,10 @@
 #include <windows.h>
 #endif
 
+#if defined(MOLLENOS)
+#include <os/mollenos.h>
+#endif
+
 _LIBCPP_BEGIN_NAMESPACE_STD
 
 thread::~thread()
@@ -97,8 +101,9 @@ thread::hardware_concurrency() _NOEXCEPT
     GetSystemInfo(&info);
     return info.dwNumberOfProcessors;
 #elif defined(MOLLENOS)
-    // @todo
-    return 1;
+    SystemDescriptor_t Info;
+    SystemQuery(&Info);
+    return Info.NumberOfActiveCores;
 #else  // defined(CTL_HW) && defined(HW_NCPU)
     // TODO: grovel through /proc or check cpuid on x86 and similar
     // instructions on other architectures.
