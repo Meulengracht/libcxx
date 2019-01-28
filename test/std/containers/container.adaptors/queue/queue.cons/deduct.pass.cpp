@@ -1,9 +1,8 @@
 //===----------------------------------------------------------------------===//
 //
-//                     The LLVM Compiler Infrastructure
-//
-// This file is dual licensed under the MIT and the University of Illinois Open
-// Source Licenses. See LICENSE.TXT for details.
+// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+// See https://llvm.org/LICENSE.txt for license information.
+// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 //
 //===----------------------------------------------------------------------===//
 
@@ -16,8 +15,8 @@
 
 // template<class Container>
 //   queue(Container) -> queue<typename Container::value_type, Container>;
-//   
-// template<class Container, class Allocator> 
+//
+// template<class Container, class Allocator>
 //   queue(Container, Allocator) -> queue<typename Container::value_type, Container>;
 
 
@@ -36,7 +35,7 @@ struct A {};
 
 int main()
 {
-  
+
 //  Test the explicit deduction guides
     {
     std::list<int> l{0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
@@ -57,7 +56,7 @@ int main()
 //  I'd like to assert that we've gotten the right allocator in the queue, but
 //  I don't know how to get at the underlying container.
     }
-    
+
 //  Test the implicit deduction guides
     {
 //  We don't expect this one to work - no way to implicitly get value_type

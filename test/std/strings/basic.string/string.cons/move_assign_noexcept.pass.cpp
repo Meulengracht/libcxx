@@ -1,9 +1,8 @@
 //===----------------------------------------------------------------------===//
 //
-//                     The LLVM Compiler Infrastructure
-//
-// This file is dual licensed under the MIT and the University of Illinois Open
-// Source Licenses. See LICENSE.TXT for details.
+// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+// See https://llvm.org/LICENSE.txt for license information.
+// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 //
 //===----------------------------------------------------------------------===//
 
@@ -32,6 +31,7 @@ struct some_alloc
 {
     typedef T value_type;
     some_alloc(const some_alloc&);
+    T *allocate(size_t);
 };
 
 template <class T>
@@ -41,6 +41,7 @@ struct some_alloc2
 
     some_alloc2() {}
     some_alloc2(const some_alloc2&);
+    T *allocate(size_t);
     void deallocate(void*, unsigned) {}
 
     typedef std::false_type propagate_on_container_move_assignment;
@@ -54,6 +55,7 @@ struct some_alloc3
 
     some_alloc3() {}
     some_alloc3(const some_alloc3&);
+    T *allocate(size_t);
     void deallocate(void*, unsigned) {}
 
     typedef std::false_type propagate_on_container_move_assignment;

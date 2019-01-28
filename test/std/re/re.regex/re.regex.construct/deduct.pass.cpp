@@ -1,9 +1,8 @@
 //===----------------------------------------------------------------------===//
 //
-//                     The LLVM Compiler Infrastructure
-//
-// This file is dual licensed under the MIT and the University of Illinois Open
-// Source Licenses. See LICENSE.TXT for details.
+// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+// See https://llvm.org/LICENSE.txt for license information.
+// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 //
 //===----------------------------------------------------------------------===//
 
@@ -16,7 +15,7 @@
 // basic_regex(ForwardIterator, ForwardIterator,
 //             regex_constants::syntax_option_type = regex_constants::ECMAScript)
 // -> basic_regex<typename iterator_traits<ForwardIterator>::value_type>;
-        
+
 
 #include <regex>
 #include <string>
@@ -34,7 +33,7 @@ struct A {};
 
 int main()
 {
-  
+
 //  Test the explicit deduction guides
     {
 //  basic_regex(ForwardIterator, ForwardIterator)
@@ -54,7 +53,7 @@ int main()
     assert(re.flags() == std::regex_constants::basic);
     assert(re.mark_count() == 1);
     }
-    
+
 //  Test the implicit deduction guides
     {
 //  basic_regex(string);
@@ -87,7 +86,7 @@ int main()
     assert(re.flags() == std::regex_constants::grep);
     assert(re.mark_count() == 0);
     }
-    
+
     {
 //  basic_regex(const charT*, size_t);
     std::basic_regex re("ABCDEDEF", 7);

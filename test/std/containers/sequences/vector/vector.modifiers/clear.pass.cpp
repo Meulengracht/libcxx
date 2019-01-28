@@ -1,19 +1,19 @@
 //===----------------------------------------------------------------------===//
 //
-//                     The LLVM Compiler Infrastructure
-//
-// This file is dual licensed under the MIT and the University of Illinois Open
-// Source Licenses. See LICENSE.TXT for details.
+// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+// See https://llvm.org/LICENSE.txt for license information.
+// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 //
 //===----------------------------------------------------------------------===//
 
 // <vector>
 
-// void clear();
+// void clear() noexcept;
 
 #include <vector>
 #include <cassert>
 
+#include "test_macros.h"
 #include "min_allocator.h"
 #include "asan_testing.h"
 
@@ -22,6 +22,7 @@ int main()
     {
     int a[] = {1, 2, 3};
     std::vector<int> c(a, a+3);
+    ASSERT_NOEXCEPT(c.clear());
     c.clear();
     assert(c.empty());
     LIBCPP_ASSERT(c.__invariants());
@@ -31,6 +32,7 @@ int main()
     {
     int a[] = {1, 2, 3};
     std::vector<int, min_allocator<int>> c(a, a+3);
+    ASSERT_NOEXCEPT(c.clear());
     c.clear();
     assert(c.empty());
     LIBCPP_ASSERT(c.__invariants());

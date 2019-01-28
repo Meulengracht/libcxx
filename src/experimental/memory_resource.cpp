@@ -1,9 +1,8 @@
 //===------------------------ memory_resource.cpp -------------------------===//
 //
-//                     The LLVM Compiler Infrastructure
-//
-// This file is dual licensed under the MIT and the University of Illinois Open
-// Source Licenses. See LICENSE.TXT for details.
+// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+// See https://llvm.org/LICENSE.txt for license information.
+// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 //
 //===----------------------------------------------------------------------===//
 
@@ -33,8 +32,9 @@ protected:
     virtual void* do_allocate(size_t __size, size_t __align)
         { return _VSTD::__libcpp_allocate(__size, __align); /* FIXME */}
 
-    virtual void do_deallocate(void * __p, size_t, size_t __align)
-        { _VSTD::__libcpp_deallocate(__p, __align); /* FIXME */ }
+    virtual void do_deallocate(void* __p, size_t __n, size_t __align) {
+      _VSTD::__libcpp_deallocate(__p, __n, __align); /* FIXME */
+    }
 
     virtual bool do_is_equal(memory_resource const & __other) const _NOEXCEPT
         { return &__other == this; }
@@ -68,12 +68,23 @@ union ResourceInitHelper {
   _LIBCPP_CONSTEXPR_AFTER_CXX11 ResourceInitHelper() : resources() {}
   ~ResourceInitHelper() {}
 };
+
+// Detect if the init_priority attribute is supported.
+#if (defined(_LIBCPP_COMPILER_GCC) && defined(__APPLE__)) \
+  || defined(_LIBCPP_COMPILER_MSVC)
+// GCC on Apple doesn't support the init priority attribute,
+// and MSVC doesn't support any GCC attributes.
+# define _LIBCPP_INIT_PRIORITY_MAX
+#else
+# define _LIBCPP_INIT_PRIORITY_MAX __attribute__((init_priority(101)))
+#endif
+
 // When compiled in C++14 this initialization should be a constant expression.
 // Only in C++11 is "init_priority" needed to ensure initialization order.
 #if _LIBCPP_STD_VER > 11
 _LIBCPP_SAFE_STATIC
 #endif
-ResourceInitHelper res_init  __attribute__((init_priority (101)));
+ResourceInitHelper res_init _LIBCPP_INIT_PRIORITY_MAX;
 
 } // end namespace
 

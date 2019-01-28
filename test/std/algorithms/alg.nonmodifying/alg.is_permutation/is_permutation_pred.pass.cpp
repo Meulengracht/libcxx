@@ -1,9 +1,8 @@
 //===----------------------------------------------------------------------===//
 //
-//                     The LLVM Compiler Infrastructure
-//
-// This file is dual licensed under the MIT and the University of Illinois Open
-// Source Licenses. See LICENSE.TXT for details.
+// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+// See https://llvm.org/LICENSE.txt for license information.
+// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 //
 //===----------------------------------------------------------------------===//
 
@@ -43,6 +42,18 @@ constexpr bool test_constexpr() {
         ;
     }
 #endif
+
+
+struct S {
+  S(int i) : i_(i) {}
+  bool operator==(const S& other) = delete;
+  int i_;
+};
+
+struct eq {
+  bool operator()(const S& a, const S&b) { return a.i_ == b.i_; }
+};
+
 
 int main()
 {
@@ -739,14 +750,6 @@ int main()
 #endif
     }
     {
-      struct S {
-          S(int i) : i_(i) {}
-          bool operator==(const S& other) = delete;
-          int i_;
-      };
-      struct eq {
-          bool operator()(const S& a, const S&b) { return a.i_ == b.i_; }
-      };
       const S a[] = {S(0), S(1)};
       const S b[] = {S(1), S(0)};
       const unsigned sa = sizeof(a)/sizeof(a[0]);

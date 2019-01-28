@@ -1,9 +1,8 @@
 //===----------------------------------------------------------------------===//
 //
-//                     The LLVM Compiler Infrastructure
-//
-// This file is dual licensed under the MIT and the University of Illinois Open
-// Source Licenses. See LICENSE.TXT for details.
+// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+// See https://llvm.org/LICENSE.txt for license information.
+// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 //
 //===----------------------------------------------------------------------===//
 
@@ -11,8 +10,9 @@
 
 // common_type
 
-#include <type_traits>
+#include <functional>
 #include <memory>
+#include <type_traits>
 
 #include "test_macros.h"
 
@@ -45,7 +45,6 @@ namespace std
 
     template <> struct common_type< ::S<long>, long> {};
     template <> struct common_type<long, ::S<long> > {};
-    template <> struct common_type< ::X<float> > {};
     template <> struct common_type< ::X<double>, ::X<double> > {};
 }
 
@@ -97,7 +96,6 @@ void test_bullet_two() {
   static_assert(std::is_same<CommonType<int volatile[]>, int volatile*>::value, "");
   static_assert(std::is_same<CommonType<void(&)()>, void(*)()>::value, "");
 
-  static_assert(no_common_type<X<float> >::value, "");
   static_assert(no_common_type<X<double> >::value, "");
 }
 

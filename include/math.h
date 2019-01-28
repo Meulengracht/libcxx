@@ -1,10 +1,9 @@
 // -*- C++ -*-
 //===---------------------------- math.h ----------------------------------===//
 //
-//                     The LLVM Compiler Infrastructure
-//
-// This file is dual licensed under the MIT and the University of Illinois Open
-// Source Licenses. See LICENSE.TXT for details.
+// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+// See https://llvm.org/LICENSE.txt for license information.
+// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 //
 //===----------------------------------------------------------------------===//
 #ifndef _LIBCPP_MATH_H
@@ -313,7 +312,7 @@ extern "C++" {
 #ifdef signbit
 
 template <class _A1>
-_LIBCPP_ALWAYS_INLINE
+_LIBCPP_INLINE_VISIBILITY
 bool
 __libcpp_signbit(_A1 __lcpp_x) _NOEXCEPT
 {
@@ -375,7 +374,7 @@ signbit(_A1) _NOEXCEPT
 #ifdef fpclassify
 
 template <class _A1>
-_LIBCPP_ALWAYS_INLINE
+_LIBCPP_INLINE_VISIBILITY
 int
 __libcpp_fpclassify(_A1 __lcpp_x) _NOEXCEPT
 {
@@ -421,7 +420,7 @@ fpclassify(_A1 __lcpp_x) _NOEXCEPT
 #ifdef isfinite
 
 template <class _A1>
-_LIBCPP_ALWAYS_INLINE
+_LIBCPP_INLINE_VISIBILITY
 bool
 __libcpp_isfinite(_A1 __lcpp_x) _NOEXCEPT
 {
@@ -455,7 +454,7 @@ isfinite(_A1) _NOEXCEPT
 #ifdef isinf
 
 template <class _A1>
-_LIBCPP_ALWAYS_INLINE
+_LIBCPP_INLINE_VISIBILITY
 bool
 __libcpp_isinf(_A1 __lcpp_x) _NOEXCEPT
 {
@@ -503,7 +502,7 @@ isinf(long double __lcpp_x) _NOEXCEPT { return __libcpp_isinf(__lcpp_x); }
 #ifdef isnan
 
 template <class _A1>
-_LIBCPP_ALWAYS_INLINE
+_LIBCPP_INLINE_VISIBILITY
 bool
 __libcpp_isnan(_A1 __lcpp_x) _NOEXCEPT
 {
@@ -547,7 +546,7 @@ isnan(long double __lcpp_x) _NOEXCEPT { return __libcpp_isnan(__lcpp_x); }
 #ifdef isnormal
 
 template <class _A1>
-_LIBCPP_ALWAYS_INLINE
+_LIBCPP_INLINE_VISIBILITY
 bool
 __libcpp_isnormal(_A1 __lcpp_x) _NOEXCEPT
 {
@@ -577,7 +576,7 @@ isnormal(_A1 __lcpp_x) _NOEXCEPT
 #ifdef isgreater
 
 template <class _A1, class _A2>
-_LIBCPP_ALWAYS_INLINE
+_LIBCPP_INLINE_VISIBILITY
 bool
 __libcpp_isgreater(_A1 __lcpp_x, _A2 __lcpp_y) _NOEXCEPT
 {
@@ -607,7 +606,7 @@ isgreater(_A1 __lcpp_x, _A2 __lcpp_y) _NOEXCEPT
 #ifdef isgreaterequal
 
 template <class _A1, class _A2>
-_LIBCPP_ALWAYS_INLINE
+_LIBCPP_INLINE_VISIBILITY
 bool
 __libcpp_isgreaterequal(_A1 __lcpp_x, _A2 __lcpp_y) _NOEXCEPT
 {
@@ -637,7 +636,7 @@ isgreaterequal(_A1 __lcpp_x, _A2 __lcpp_y) _NOEXCEPT
 #ifdef isless
 
 template <class _A1, class _A2>
-_LIBCPP_ALWAYS_INLINE
+_LIBCPP_INLINE_VISIBILITY
 bool
 __libcpp_isless(_A1 __lcpp_x, _A2 __lcpp_y) _NOEXCEPT
 {
@@ -667,7 +666,7 @@ isless(_A1 __lcpp_x, _A2 __lcpp_y) _NOEXCEPT
 #ifdef islessequal
 
 template <class _A1, class _A2>
-_LIBCPP_ALWAYS_INLINE
+_LIBCPP_INLINE_VISIBILITY
 bool
 __libcpp_islessequal(_A1 __lcpp_x, _A2 __lcpp_y) _NOEXCEPT
 {
@@ -697,7 +696,7 @@ islessequal(_A1 __lcpp_x, _A2 __lcpp_y) _NOEXCEPT
 #ifdef islessgreater
 
 template <class _A1, class _A2>
-_LIBCPP_ALWAYS_INLINE
+_LIBCPP_INLINE_VISIBILITY
 bool
 __libcpp_islessgreater(_A1 __lcpp_x, _A2 __lcpp_y) _NOEXCEPT
 {
@@ -727,7 +726,7 @@ islessgreater(_A1 __lcpp_x, _A2 __lcpp_y) _NOEXCEPT
 #ifdef isunordered
 
 template <class _A1, class _A2>
-_LIBCPP_ALWAYS_INLINE
+_LIBCPP_INLINE_VISIBILITY
 bool
 __libcpp_isunordered(_A1 __lcpp_x, _A2 __lcpp_y) _NOEXCEPT
 {

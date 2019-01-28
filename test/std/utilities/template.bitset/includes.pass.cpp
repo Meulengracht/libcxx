@@ -1,13 +1,12 @@
 //===----------------------------------------------------------------------===//
 //
-//                     The LLVM Compiler Infrastructure
-//
-// This file is dual licensed under the MIT and the University of Illinois Open
-// Source Licenses. See LICENSE.TXT for details.
+// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+// See https://llvm.org/LICENSE.txt for license information.
+// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 //
 //===----------------------------------------------------------------------===//
 
-// test that <bitset> includes <cstddef>, <string>, <stdexcept> and <iosfwd>
+// test that <bitset> includes <string> and <iosfwd>
 
 #include <bitset>
 
@@ -15,17 +14,8 @@ template <class> void test_typedef() {}
 
 int main()
 {
-  { // test for <cstddef>
-    std::ptrdiff_t p; ((void)p);
-    std::size_t s; ((void)s);
-    std::nullptr_t np; ((void)np);
-  }
   { // test for <string>
     std::string s; ((void)s);
-  }
-  { // test for <stdexcept>
-    std::logic_error le("blah"); ((void)le);
-    std::runtime_error re("blah"); ((void)re);
   }
   { // test for <iosfwd>
     test_typedef<std::ios>();

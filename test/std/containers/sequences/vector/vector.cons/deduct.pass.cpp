@@ -1,9 +1,8 @@
 //===----------------------------------------------------------------------===//
 //
-//                     The LLVM Compiler Infrastructure
-//
-// This file is dual licensed under the MIT and the University of Illinois Open
-// Source Licenses. See LICENSE.TXT for details.
+// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+// See https://llvm.org/LICENSE.txt for license information.
+// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 //
 //===----------------------------------------------------------------------===//
 
@@ -32,7 +31,7 @@ struct A {};
 
 int main()
 {
-  
+
 //  Test the explicit deduction guides
     {
     const int arr[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
@@ -51,7 +50,7 @@ int main()
     assert(vec[1] == 1L);
     assert(vec[2] == 2L);
     }
-    
+
 //  Test the implicit deduction guides
 
     {

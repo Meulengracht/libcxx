@@ -1,9 +1,8 @@
 //===----------------------------------------------------------------------===//
 //
-//                     The LLVM Compiler Infrastructure
-//
-// This file is dual licensed under the MIT and the University of Illinois Open
-// Source Licenses. See LICENSE.TXT for details.
+// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+// See https://llvm.org/LICENSE.txt for license information.
+// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 //
 //===----------------------------------------------------------------------===//
 
@@ -12,6 +11,8 @@
 #include <cstdlib>
 #include <type_traits>
 #include <cassert>
+
+#include "test_macros.h"
 
 // As of 1/10/2015 clang emits a -Wnonnull warnings even if the warning occurs
 // in an unevaluated context. For this reason we manually suppress the warning.
@@ -71,6 +72,12 @@ int main()
     static_assert((std::is_same<decltype(std::strtoull("", endptr,0)), unsigned long long>::value), "");
     static_assert((std::is_same<decltype(std::rand()), int>::value), "");
     static_assert((std::is_same<decltype(std::srand(0)), void>::value), "");
+
+//  Microsoft does not implement aligned_alloc in their C library
+#if TEST_STD_VER > 14 && defined(TEST_HAS_C11_FEATURES) && !defined(_WIN32)
+    static_assert((std::is_same<decltype(aligned_alloc(0,0)), void*>::value), "");
+#endif
+
     static_assert((std::is_same<decltype(std::calloc(0,0)), void*>::value), "");
     static_assert((std::is_same<decltype(std::free(0)), void>::value), "");
     static_assert((std::is_same<decltype(std::malloc(0)), void*>::value), "");
