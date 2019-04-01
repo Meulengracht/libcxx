@@ -485,7 +485,7 @@ endif()
 # Configure compiler.
 include(config-ix)
 
-if (LIBCXX_USE_COMPILER_RT)
+if (LIBCXX_USE_COMPILER_RT AND NOT MOLLENOS)
   list(APPEND LIBCXX_LINK_FLAGS "-rtlib=compiler-rt")
 endif()
 
@@ -546,7 +546,9 @@ endif()
 # MSVC only has -X, which disables all default includes; including the crt.
 # Thus, we do nothing and hope we don't accidentally include any of the C++
 # headers
-add_compile_flags_if_supported(-nostdinc++)
+if (NOT MOLLENOS)
+  add_compile_flags_if_supported(-nostdinc++)
+endif()
 
 # Hide all inline function definitions which have not explicitly been marked
 # visible. This prevents new definitions for inline functions from appearing in

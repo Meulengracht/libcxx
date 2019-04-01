@@ -92,6 +92,7 @@ else()
 endif()
 add_library_flags_if(LIBCXX_HAVE_CXX_ATOMICS_WITH_LIB atomic)
 add_library_flags_if(MINGW "${MINGW_LIBRARIES}")
+add_library_flags_if(MOLLENOS "${VALI_LIBRARIES}")
 
 # Add the unwinder library.
 if (LIBCXXABI_USE_LLVM_UNWINDER)
@@ -105,11 +106,13 @@ if (LIBCXXABI_USE_LLVM_UNWINDER)
 endif()
 
 # Setup flags.
-if (NOT WIN32)
+if (NOT WIN32 AND NOT MOLLENOS)
   add_flags_if_supported(-fPIC)
 endif()
 
-add_link_flags_if_supported(-nodefaultlibs)
+if (NOT MOLLENOS)
+  add_link_flags_if_supported(-nodefaultlibs)
+endif()
 
 if (LIBCXX_TARGETING_MSVC)
   if (LIBCXX_DEBUG_BUILD)
