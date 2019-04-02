@@ -654,11 +654,6 @@ typedef __char32_t char32_t;
 
 #endif // _LIBCPP_COMPILER_[CLANG|GCC|MSVC|IBM]
 
-#if defined(MOLLENOS)
-#define _LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS 1
-#define _LIBCPP_HAS_THREAD_API_EXTERNAL 1
-#endif
-
 #if defined(_LIBCPP_OBJECT_FORMAT_COFF)
 
 #ifdef _DLL
@@ -667,7 +662,7 @@ typedef __char32_t char32_t;
 #  define _LIBCPP_CRT_FUNC
 #endif
 
-#if defined(_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS)
+#if defined(_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS) || defined(__STATIC__)
 #  define _LIBCPP_DLL_VIS
 #  define _LIBCPP_EXTERN_TEMPLATE_TYPE_VIS
 #  define _LIBCPP_CLASS_TEMPLATE_INSTANTIATION_VIS
@@ -1154,7 +1149,6 @@ _LIBCPP_FUNC_VIS extern "C" void __sanitizer_annotate_contiguous_container(
 #if !defined(_LIBCPP_HAS_NO_THREADS) && \
     !defined(_LIBCPP_HAS_THREAD_API_PTHREAD) && \
     !defined(_LIBCPP_HAS_THREAD_API_WIN32) && \
-    !defined(_LIBCPP_HAS_THREAD_API_C11) && \
     !defined(_LIBCPP_HAS_THREAD_API_EXTERNAL)
 # if defined(__FreeBSD__) || \
     defined(__Fuchsia__) || \
@@ -1169,7 +1163,7 @@ _LIBCPP_FUNC_VIS extern "C" void __sanitizer_annotate_contiguous_container(
 # elif defined(_LIBCPP_WIN32API)
 #  define _LIBCPP_HAS_THREAD_API_WIN32
 # elif defined(MOLLENOS)
-#  define _LIBCPP_HAS_THREAD_API_C11
+#  define _LIBCPP_HAS_THREAD_API_EXTERNAL
 # else
 #  error "No thread API"
 # endif // _LIBCPP_HAS_THREAD_API

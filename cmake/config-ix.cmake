@@ -39,8 +39,7 @@ if (LIBCXX_SUPPORTS_NODEFAULTLIBS_FLAG)
     list(APPEND CMAKE_REQUIRED_LIBRARIES gcc_s)
   endif ()
   if (MOLLENOS)
-    set(VALI_LIBRARIES libcrt.lib ddk.lib unwind.lib libclang.lib c.lib m.lib)
-    list(APPEND CMAKE_REQUIRED_LIBRARIES ${VALI_LIBRARIES})
+    set(VALI_LIBRARIES crt.lib ddk.lib compiler-rt.lib)
   endif()
   if (MINGW)
     # Mingw64 requires quite a few "C" runtime libraries in order for basic
@@ -63,19 +62,20 @@ if (LIBCXX_SUPPORTS_NODEFAULTLIBS_FLAG)
   endif ()
 endif ()
 
-if(NOT WIN32 OR MINGW)
-  include(CheckLibcxxAtomic)
+if (NOT LIBCXX_VALI_BOOTSTRAP)
+  if(NOT WIN32 OR MINGW)
+    include(CheckLibcxxAtomic)
+  endif()
+  
+  # Check compiler flags
+  
+  check_cxx_compiler_flag(/WX                     LIBCXX_HAS_WX_FLAG)
+  check_cxx_compiler_flag(/WX-                    LIBCXX_HAS_NO_WX_FLAG)
+  check_cxx_compiler_flag(/EHsc                   LIBCXX_HAS_EHSC_FLAG)
+  check_cxx_compiler_flag(/EHs-                   LIBCXX_HAS_NO_EHS_FLAG)
+  check_cxx_compiler_flag(/EHa-                   LIBCXX_HAS_NO_EHA_FLAG)
+  check_cxx_compiler_flag(/GR-                    LIBCXX_HAS_NO_GR_FLAG)
 endif()
-
-# Check compiler flags
-
-check_cxx_compiler_flag(/WX                     LIBCXX_HAS_WX_FLAG)
-check_cxx_compiler_flag(/WX-                    LIBCXX_HAS_NO_WX_FLAG)
-check_cxx_compiler_flag(/EHsc                   LIBCXX_HAS_EHSC_FLAG)
-check_cxx_compiler_flag(/EHs-                   LIBCXX_HAS_NO_EHS_FLAG)
-check_cxx_compiler_flag(/EHa-                   LIBCXX_HAS_NO_EHA_FLAG)
-check_cxx_compiler_flag(/GR-                    LIBCXX_HAS_NO_GR_FLAG)
-
 
 # Check libraries
 if(WIN32 AND NOT MINGW)
