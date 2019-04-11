@@ -172,11 +172,17 @@ if (LIBCXX_ENABLE_SHARED)
       DEFINE_SYMBOL ""
   )
   cxx_set_common_defines(cxx_shared)
+  
+  if (MOLLENOS)
+    target_compile_definitions(cxx_shared PRIVATE _DLL)
+  endif()
 
   # Link against libc++abi
   if (LIBCXX_STATICALLY_LINK_ABI_IN_SHARED_LIBRARY)
     if (APPLE)
       target_link_libraries(cxx_shared PRIVATE "-Wl,-force_load" "${LIBCXX_CXX_STATIC_ABI_LIBRARY}")
+    elseif(MOLLENOS)
+      target_link_libraries(cxx_shared PRIVATE "${LIBCXX_CXX_STATIC_ABI_LIBRARY}")
     else()
       target_link_libraries(cxx_shared PRIVATE "-Wl,--whole-archive,-Bstatic" "${LIBCXX_CXX_STATIC_ABI_LIBRARY}" "-Wl,-Bdynamic,--no-whole-archive")
     endif()
