@@ -51,6 +51,30 @@ if (LIBCXX_GENERATE_COVERAGE AND NOT LIBCXX_COVERAGE_LIBRARY)
 endif()
 add_library_flags_if(LIBCXX_COVERAGE_LIBRARY "${LIBCXX_COVERAGE_LIBRARY}")
 
+if (APPLE AND (LIBCXX_CXX_ABI_LIBNAME STREQUAL "libcxxabi" OR
+               LIBCXX_CXX_ABI_LIBNAME STREQUAL "default")
+          AND NOT DEFINED LIBCXX_OSX_REEXPORT_LIBCXXABI_SYMBOLS)
+  set(LIBCXX_OSX_REEXPORT_LIBCXXABI_SYMBOLS ON)
+endif()
+
+if (LIBCXX_STATICALLY_LINK_ABI_IN_SHARED_LIBRARY)
+  if (APPLE)
+    add_library_flags("-Wl,-force_load" "${LIBCXX_CXX_ABI_LIBRARY}")
+  else()
+    if (MOLLENOS)
+      add_library_flags("${LIBCXX_CXX_ABI_LIBRARY}")
+    else()
+      add_library_flags("-Wl,--whole-archive" "-Wl,-Bstatic")
+      add_library_flags("${LIBCXX_CXX_ABI_LIBRARY}")
+      add_library_flags("-Wl,-Bdynamic" "-Wl,--no-whole-archive")
+    endif()
+  endif()
+elseif (LIBCXX_OSX_REEXPORT_LIBCXXABI_SYMBOLS)
+  add_library_flags("${LIBCXX_CXX_ABI_LIBRARY}")
+else ()
+ add_interface_library("${LIBCXX_CXX_ABI_LIBRARY}")
+endif()
+
 if (APPLE AND LLVM_USE_SANITIZER)
   if (("${LLVM_USE_SANITIZER}" STREQUAL "Address") OR
       ("${LLVM_USE_SANITIZER}" STREQUAL "Address;Undefined") OR
@@ -89,6 +113,7 @@ else()
 endif()
 add_library_flags_if(LIBCXX_HAVE_CXX_ATOMICS_WITH_LIB atomic)
 add_library_flags_if(MINGW "${MINGW_LIBRARIES}")
+add_library_flags_if(MOLLENOS "${VALI_LIBRARIES}")
 
 # Add the unwinder library.
 if (LIBCXXABI_USE_LLVM_UNWINDER)
@@ -101,8 +126,9 @@ if (LIBCXXABI_USE_LLVM_UNWINDER)
   endif()
 endif()
 
-# Setup flags.
-add_link_flags_if_supported(-nodefaultlibs)
+if (NOT MOLLENOS)
+  add_link_flags_if_supported(-nodefaultlibs)
+endif()
 
 if (LIBCXX_TARGETING_MSVC)
   if (LIBCXX_DEBUG_BUILD)
@@ -251,7 +277,9 @@ endif()
 if (LIBCXX_ENABLE_STATIC)
   add_library(cxx_static STATIC ${exclude_from_all} ${LIBCXX_SOURCES} ${LIBCXX_HEADERS})
   target_link_libraries(cxx_static PRIVATE ${LIBCXX_LIBRARIES})
-  set(CMAKE_STATIC_LIBRARY_PREFIX "lib")
+  if (NOT MOLLENOS)
+    set(CMAKE_STATIC_LIBRARY_PREFIX "lib")
+  endif()
   set_target_properties(cxx_static
     PROPERTIES
       COMPILE_FLAGS "${LIBCXX_COMPILE_FLAGS}"
@@ -272,7 +300,7 @@ if (LIBCXX_ENABLE_STATIC)
     list(APPEND LIBCXX_INSTALL_TARGETS "cxx_static")
   endif()
   # Attempt to merge the libc++.a archive and the ABI library archive into one.
-  if (LIBCXX_STATICALLY_LINK_ABI_IN_STATIC_LIBRARY)
+  if (LIBCXX_STATICALLY_LINK_ABI_IN_STATIC_LIBRARY AND NOT MOLLENOS)
     set(MERGE_ARCHIVES_SEARCH_PATHS "")
     if (LIBCXX_CXX_ABI_LIBRARY_PATH)
       set(MERGE_ARCHIVES_SEARCH_PATHS "-L${LIBCXX_CXX_ABI_LIBRARY_PATH}")

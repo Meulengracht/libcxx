@@ -1275,7 +1275,7 @@ struct _LIBCPP_TEMPLATE_VIS __narrow_to_utf8<16>
     _LIBCPP_INLINE_VISIBILITY
     __narrow_to_utf8() : codecvt<char16_t, char, mbstate_t>(1) {}
 
-    _LIBCPP_EXPORTED_FROM_ABI ~__narrow_to_utf8();
+    _LIBCPP_DLL_VIS ~__narrow_to_utf8();
 
     template <class _OutputIterator, class _CharT>
     _LIBCPP_INLINE_VISIBILITY
@@ -1399,7 +1399,7 @@ struct _LIBCPP_TEMPLATE_VIS __widen_from_utf8<32>
     _LIBCPP_INLINE_VISIBILITY
     __widen_from_utf8() : codecvt<char32_t, char, mbstate_t>(1) {}
 
-    _LIBCPP_EXPORTED_FROM_ABI ~__widen_from_utf8();
+    _LIBCPP_DLL_VIS ~__widen_from_utf8();
 
     template <class _OutputIterator>
     _LIBCPP_INLINE_VISIBILITY

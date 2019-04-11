@@ -74,7 +74,7 @@ option(LIBCXX_ENABLE_SHARED "Build libc++ as a shared library." ON)
 option(LIBCXX_ENABLE_STATIC "Build libc++ as a static library." ON)
 option(LIBCXX_ENABLE_EXPERIMENTAL_LIBRARY "Build libc++experimental.a" ON)
 set(ENABLE_FILESYSTEM_DEFAULT ON)
-if (WIN32)
+if (WIN32 OR MOLLENOS)
   set(ENABLE_FILESYSTEM_DEFAULT OFF)
 endif()
 option(LIBCXX_ENABLE_FILESYSTEM "Build filesystem as part of the main libc++ library"
@@ -362,7 +362,7 @@ endif()
 # Warn users that LIBCXX_ENABLE_STATIC_ABI_LIBRARY is an experimental option.
 if (LIBCXX_ENABLE_STATIC_ABI_LIBRARY)
   message(WARNING "LIBCXX_ENABLE_STATIC_ABI_LIBRARY is an experimental option")
-  if (LIBCXX_ENABLE_STATIC AND NOT PYTHONINTERP_FOUND)
+  if (LIBCXX_ENABLE_STATIC AND NOT PYTHONINTERP_FOUND AND NOT MOLLENOS)
     message(FATAL_ERROR "LIBCXX_ENABLE_STATIC_ABI_LIBRARY requires python but it was not found.")
   endif()
 endif()
@@ -533,7 +533,14 @@ endif()
 # MSVC only has -X, which disables all default includes; including the crt.
 # Thus, we do nothing and hope we don't accidentally include any of the C++
 # headers
-add_compile_flags_if_supported(-nostdinc++)
+if (NOT MOLLENOS)
+  add_compile_flags_if_supported(-nostdinc++)
+endif()
+
+if (LIBCXX_STATICALLY_LINK_ABI_IN_SHARED_LIBRARY)
+ add_definitions(-D_LIBCXXABI_BUILDING_LIBRARY)
+ add_compile_flags(-static)
+endif()
 
 # Hide all inline function definitions which have not explicitly been marked
 # visible. This prevents new definitions for inline functions from appearing in
@@ -744,7 +751,7 @@ endif()
 # By default libc++ on Windows expects to use a shared library, which requires
 # the headers to use DLL import/export semantics. However when building a
 # static library only we modify the headers to disable DLL import/export.
-if (DEFINED WIN32 AND LIBCXX_ENABLE_STATIC AND NOT LIBCXX_ENABLE_SHARED)
+if ((WIN32 OR MOLLENOS) AND LIBCXX_ENABLE_STATIC AND NOT LIBCXX_ENABLE_SHARED)
   message(STATUS "Generating custom __config for non-DLL Windows build")
   config_define(ON _LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS)
 endif()
