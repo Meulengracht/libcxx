@@ -51,30 +51,6 @@ if (LIBCXX_GENERATE_COVERAGE AND NOT LIBCXX_COVERAGE_LIBRARY)
 endif()
 add_library_flags_if(LIBCXX_COVERAGE_LIBRARY "${LIBCXX_COVERAGE_LIBRARY}")
 
-if (APPLE AND (LIBCXX_CXX_ABI_LIBNAME STREQUAL "libcxxabi" OR
-               LIBCXX_CXX_ABI_LIBNAME STREQUAL "default")
-          AND NOT DEFINED LIBCXX_OSX_REEXPORT_LIBCXXABI_SYMBOLS)
-  set(LIBCXX_OSX_REEXPORT_LIBCXXABI_SYMBOLS ON)
-endif()
-
-if (LIBCXX_STATICALLY_LINK_ABI_IN_SHARED_LIBRARY)
-  if (APPLE)
-    add_library_flags("-Wl,-force_load" "${LIBCXX_CXX_ABI_LIBRARY}")
-  else()
-    if (MOLLENOS)
-      add_library_flags("${LIBCXX_CXX_ABI_LIBRARY}")
-    else()
-      add_library_flags("-Wl,--whole-archive" "-Wl,-Bstatic")
-      add_library_flags("${LIBCXX_CXX_ABI_LIBRARY}")
-      add_library_flags("-Wl,-Bdynamic" "-Wl,--no-whole-archive")
-    endif()
-  endif()
-elseif (LIBCXX_OSX_REEXPORT_LIBCXXABI_SYMBOLS)
-  add_library_flags("${LIBCXX_CXX_ABI_LIBRARY}")
-else ()
- add_interface_library("${LIBCXX_CXX_ABI_LIBRARY}")
-endif()
-
 if (APPLE AND LLVM_USE_SANITIZER)
   if (("${LLVM_USE_SANITIZER}" STREQUAL "Address") OR
       ("${LLVM_USE_SANITIZER}" STREQUAL "Address;Undefined") OR
