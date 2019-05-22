@@ -191,30 +191,18 @@ int __libcpp_mutex_destroy(__libcpp_mutex_t *__m) {
 
 // Condition Variable
 int __libcpp_condvar_signal(__libcpp_condvar_t *__cv) {
-    if (*__cv == UUID_INVALID) {
-        cnd_init(__cv);
-    }
     return cnd_signal(__cv);
 }
 
 int __libcpp_condvar_broadcast(__libcpp_condvar_t *__cv) {
-    if (*__cv == UUID_INVALID) {
-        cnd_init(__cv);
-    }
     return cnd_broadcast(__cv);
 }
 
 int __libcpp_condvar_wait(__libcpp_condvar_t *__cv, __libcpp_mutex_t *__m) {
-    if (*__cv == UUID_INVALID) {
-        cnd_init(__cv);
-    }
     return cnd_wait(__cv, __m);
 }
 
 int __libcpp_condvar_timedwait(__libcpp_condvar_t *__cv, __libcpp_mutex_t *__m, timespec *__ts) {
-    if (*__cv == UUID_INVALID) {
-        cnd_init(__cv);
-    }
     return cnd_timedwait(__cv, __m, __ts);
 }
 
