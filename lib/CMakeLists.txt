@@ -352,10 +352,18 @@ if (LIBCXX_INSTALL_LIBRARY)
   if (LIBCXX_INSTALL_EXPERIMENTAL_LIBRARY)
     set(experimental_lib cxx_experimental)
   endif()
+  set(export_to_llvmexports)
+  if (${LLVM_BOOTSTRAP_RUNTIME})
+    set(export_to_llvmexports EXPORT LLVMExports)
+  endif()
   install(TARGETS ${LIBCXX_INSTALL_TARGETS} ${experimental_lib}
+    ${export_to_llvmexports}
     LIBRARY DESTINATION ${LIBCXX_INSTALL_PREFIX}lib${LIBCXX_LIBDIR_SUFFIX} COMPONENT cxx
     ARCHIVE DESTINATION ${LIBCXX_INSTALL_PREFIX}lib${LIBCXX_LIBDIR_SUFFIX} COMPONENT cxx
     )
+  if (${LLVM_BOOTSTRAP_RUNTIME})
+    set_property(GLOBAL APPEND PROPERTY LLVM_EXPORTS ${LIBUNWIND_INSTALL_TARGETS})
+  endif()
   # NOTE: This install command must go after the cxx install command otherwise
   # it will not be executed after the library symlinks are installed.
   if (LIBCXX_ENABLE_SHARED AND LIBCXX_ENABLE_ABI_LINKER_SCRIPT)
