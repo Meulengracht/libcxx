@@ -39,7 +39,7 @@ if (LIBCXX_SUPPORTS_NODEFAULTLIBS_FLAG)
     list(APPEND CMAKE_REQUIRED_LIBRARIES gcc_s)
   endif ()
   if (MOLLENOS)
-    set(VALI_LIBRARIES crt.lib ddk.lib compiler-rt.lib)
+    set(VALI_LIBRARIES static_libcrt.lib static_libddk.lib static_librt.lib)
   endif()
   if (MINGW)
     # Mingw64 requires quite a few "C" runtime libraries in order for basic
