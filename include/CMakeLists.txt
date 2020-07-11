@@ -164,6 +164,13 @@ set(files
   wctype.h
   )
 
+if(LIBCXX_HAS_EXTERNAL_THREAD_API)
+  set(files
+    ${files}
+    __external_threading
+  )
+endif()
+
 if(LIBCXX_INSTALL_SUPPORT_HEADERS)
   set(files
     ${files}
